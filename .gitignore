@@ -1,0 +1,36 @@
+# Emacs
+*~
+\#*\#
+/.emacs.desktop
+/.emacs.desktop.lock
+.elc
+auto-save-list
+tramp
+.\#*
+
+# OS X
+.DS_Store
+.AppleDouble
+.LSOverride
+Icon
+._*
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+
+auto-save-list
+el-get
+elpa
+ido.last
+projectile-bookmarks.eld
+smex-items
+tmp
+tramp
+*.swp
+.mc-lists.el
