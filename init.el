@@ -2,6 +2,12 @@
 ;; installed packages.  Don't delete this line.  If you don't want it,
 ;; just comment it out by adding a semicolon to the start of the line.
 ;; You may delete these explanatory comments.
+(require 'package)
+(add-to-list 'package-archives
+             '("melpa" . "https://melpa.org/packages/"))
+(when (< emacs-major-version 24)
+  ;; For important compatibility libraries like cl-lib
+  (add-to-list 'package-archives '("gnu" . "http://elpa.gnu.org/packages/")))
 (package-initialize)
 
 (add-to-list 'load-path "~/.emacs.d/el-get/el-get")
@@ -13,7 +19,7 @@
     (goto-char (point-max))
     (eval-print-last-sexp)))
 
-(add-to-list 'el-get-recipe-path "~/.emacs.d/el-get-user/recipes")
+(add-to-list 'el-get-recipe-path "~/.emacs.d/recipes")
 (el-get 'sync)
 
 (setq root-dir "~/.emacs.d/")
@@ -68,7 +74,6 @@
 (load-config-file "shell.el")
 (load-config-file "fixme.el")
 ;; (load-config-file "spelling.el")
-(load-config-file "lisp.el")
 (load-config-file "win-switch.el")
 ;; (load-config-file "zone.el")
 ;; (load-config-file "monkey-patch.el")
@@ -76,7 +81,7 @@
 (load-config-file "colors.el")
 
 
-;; ;; project
+;; project
 (load-config-file "company.el")
 (load-config-file "yasnippet.el")
 (load-config-file "flycheck.el")
@@ -84,22 +89,25 @@
 
 ;; (load-config-file "org.el")
 
-;; ;; clojure
-;; (load-config-file "paredit.el")
-;; (load-config-file "clojure.el")
-;; (load-config-file "cider.el")
+;; lisp
+(load-config-file "lisp.el")
+
+;; erlang
+(load-config-file "erlang.el")
+(load-config-file "elixir.el")
+(load-config-file "lfe.el")
 
 ;; langs
 (load-config-file "power.el")
-(load-config-file "langs.el")
-(load-config-file "c.el")
-(load-config-file "go.el")
+;; (load-config-file "langs.el")
+;; (load-config-file "c.el")
+;; (load-config-file "go.el")
 ;; (load-config-file "web.el")
-;; (load-config-file "rails.el")
-;; (load-config-file "python.el")
 
 ;; key bindings
 (load-config-file "bindings.el")
+
+(el-get 'sync '(multiple-cursors mark-multiple))
 
 ;; system specific
 (when (eq system-type 'darwin)
@@ -110,3 +118,17 @@
     (load-config-file "term.el")))
 (when (eq system-type 'windows-nt)
   (load-config-file "win.el"))
+
+(custom-set-variables
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ '(package-selected-packages (quote (inflections queue slime)))
+ '(safe-local-variable-values (quote ((Package "CLORB.SYSTEM" :use ("CL" "ASDF"))))))
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )

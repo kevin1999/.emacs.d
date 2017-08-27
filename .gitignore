@@ -34,3 +34,5 @@ tmp
 tramp
 *.swp
 .mc-lists.el
+network-security.data
+/url

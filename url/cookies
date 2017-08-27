@@ -1,0 +1,25 @@
+;; Emacs-W3 HTTP cookies file
+;; Automatically generated file!!! DO NOT EDIT!!!
+
+(setq url-cookie-storage
+ '((".google.com"
+  [url-cookie "NID" "89=mVpjRCAn-o4ASMfeCTvgxbbI2V95rl8ZRaE0j4W61UdCU0zfp3sjOWxUe2gQUSVf4SNHnjO9rZEad_dgGXxvzcs6aYXhDiRge2BqOGNlQuoAyDyJsE4N3nPhbjBEufPy" "20-Apr-2017 06:02:58.00 GMT" "/" ".google.com" nil])
+ ("imgur.com"
+  [url-cookie "fst-client-id" "1e95bcf686e7625fde2cc5049342b00083263655f3155dc84972ac2193df62e4" "Thu, 19 Oct 2017 06:10:01 GMT" "/" "imgur.com" nil])
+ (".google.com.hk"
+  [url-cookie "HttpOnly" nil "20-Apr-2017 06:13:59.00 GMT" "/" ".google.com.hk" nil]
+  [url-cookie "NID" "89=jYVEkoZgioV8DmIiRM0cJayIxGo7oyidWQwlvOIotnE9ILFA7G2k7xBHER10QVPRrY6OxZm0iQw819br5XkNfp1drW-FLuJ1fQMIM8BCHKrQbWDcpG5tpkchJm_HMJMEAhKNoDvGkXj1fNLQ" "20-Apr-2017 06:13:59.00 GMT" "/" ".google.com.hk" nil]))
+)
+(setq url-cookie-secure-storage
+ '(("en.wikipedia.org"
+  [url-cookie "WMF-Last-Access" "19-Oct-2016" "Sun, 20 Nov 2016 00:00:00 GMT" "/" "en.wikipedia.org" t]
+  [url-cookie "HttpOnly" nil "Sun, 20 Nov 2016 00:00:00 GMT" "/" "en.wikipedia.org" t])
+ ("zh.wikipedia.org"
+  [url-cookie "HttpOnly" nil "Sun, 20 Nov 2016 00:00:00 GMT" "/" "zh.wikipedia.org" t]
+  [url-cookie "WMF-Last-Access" "19-Oct-2016" "Sun, 20 Nov 2016 00:00:00 GMT" "/" "zh.wikipedia.org" t]))
+)
+
+;; Local Variables:
+;; version-control: never
+;; no-byte-compile: t
+;; End:

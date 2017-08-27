@@ -1,3 +1,13 @@
+(el-get 'sync '(rainbow-delimiters
+                paredit
+                uuid
+                mic-paren
+                ;; clojure-mode
+                ;; align-cljlet
+                ;; cider
+                ;; clj-refactor
+                ))
+
 (add-to-list 'auto-mode-alist '("\\.el$" . emacs-lisp-mode))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
 (add-hook 'lisp-interaction-mode-hook 'turn-on-eldoc-mode)
@@ -45,4 +55,210 @@
   "Returns true if the char at point is whitespace"
   (string-match "[ \n\t]" (buffer-substring (point) (+ 1 (point)))))
 
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; paredit
+
+(eval-after-load 'paredit
+  ;; need a binding that works in the terminal
+  '(define-key paredit-mode-map (kbd "M-)") 'paredit-forward-slurp-sexp))
+
+(require 'paredit)
+(require 'thingatpt)
+
+(defun paredit-next-top-level-form ()
+  (interactive)
+  (while (ignore-errors (paredit-backward-up) t))
+  (live-paredit-forward))
+
+(defun paredit-previous-top-level-form ()
+  (interactive)
+  (if (ignore-errors (paredit-backward-up) t)
+      (while (ignore-errors (paredit-backward-up) t))
+    (paredit-backward)))
+
+(defun k/paredit-forward ()
+  "Feels more natural to move to the beginning of the next item
+   in the sexp, not the end of the current one."
+  (interactive)
+  (if (and (not (paredit-in-string-p))
+           (save-excursion
+             (ignore-errors
+               (forward-sexp)
+               (forward-sexp)
+               t)))
+      (progn
+        (forward-sexp)
+        (forward-sexp)
+        (backward-sexp))
+    (paredit-forward)))
+
+(defun paredit-forward-slurp-sexp-neatly ()
+  (interactive)
+  (save-excursion
+    (cond ((or (paredit-in-comment-p)
+               (paredit-in-char-p))
+           (error "Invalid context for slurping S-expressions."))
+          ((paredit-in-string-p)
+           (paredit-forward-slurp-into-string))
+          (t
+
+           (save-excursion
+             (paredit-forward-up)
+             (paredit-backward-down)
+             (paredit-forward-slurp-sexp)
+             (just-one-space)))))
+  (when (not (save-excursion
+               (ignore-errors
+                 (backward-sexp)
+                 t)))
+    (delete-horizontal-space)))
+
+
+
+(defun paredit-forward-kill-sexp (&optional arg)
+  (interactive "p")
+  (cond ((or (paredit-in-comment-p)
+             (paredit-in-string-p)) (kill-word (or arg 1)))
+        (t (kill-sexp (or arg 1)))))
+
+(defun paredit-backward-kill-sexp (&optional arg)
+  (interactive "p")
+  (cond ((or (paredit-in-comment-p)
+             (paredit-in-string-p)) (backward-kill-word (or arg 1)))
+        (t (backward-kill-sexp (or arg 1)))))
+
+(defun paredit-backward-kill ()
+  (interactive)
+  (let ((m (point-marker)))
+    (paredit-backward-up)
+    (forward-char)
+    (delete-region (point) m)))
+
+(defun paredit-delete-horizontal-space ()
+  (interactive)
+  (just-one-space -1)
+  (paredit-backward-delete))
+
+(defun paredit-tidy-trailing-parens ()
+  (interactive)
+  (save-excursion
+    (while (ignore-errors (paredit-forward-up) t))
+    (backward-char)
+    (paredit-delete-horizontal-space)
+    (while
+        (or
+         (eq (char-before) ?\))
+         (eq (char-before) ?\})
+         (eq (char-before) ?\]))
+      (backward-char)
+      (paredit-delete-horizontal-space))))
+
+(defun k/paredit-reindent-defun (&optional argument)
+  "Reindent the definition that the point is on. If the point is
+  in a string or a comment, fill the paragraph instead, and with
+  a prefix argument, justify as well. Doesn't mess about with
+  Clojure fn arglists when filling-paragraph in docstrings.
+
+  Also tidies up trailing parens when in a lisp form"
+  (interactive "P")
+  (cond ((paredit-in-comment-p) (fill-paragraph argument))
+        ((paredit-in-string-p) (progn
+                                 (save-excursion
+                                   (paredit-forward-up)
+                                   (insert "\n"))
+                                 (fill-paragraph argument)
+                                 (save-excursion
+                                   (paredit-forward-up)
+                                   (delete-char 1))))
+        (t (when (not (paredit-top-level-p))
+             (progn (save-excursion
+                      (end-of-defun)
+                      (beginning-of-defun)
+                      (indent-sexp))
+                    (paredit-tidy-trailing-parens))))))
+
+
+(defun k/paredit-forward-down ()
+  "Doesn't freeze Emacs if attempted to be called at end of
+   buffer. Otherwise similar to paredit-forward-down."
+  (interactive)
+  (if (save-excursion
+        (forward-comment (buffer-size))
+        (not (live-end-of-buffer-p)))
+      (paredit-forward-down)
+    (error "unexpected end of buffer")))
+
+(defun paredit-top-level-p ()
+  "Returns true if point is not within a given form i.e. it's in
+  toplevel 'whitespace'"
+  (not
+   (save-excursion
+     (ignore-errors
+       (paredit-forward-up)
+       t))))
+
+(defun paredit-copy-sexp-at-point ()
+  (interactive)
+  (kill-new (thing-at-point 'sexp)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; clojure
+
+(require 'clojure-mode)
+(require 'rainbow-delimiters)
+;; (require 'clojure-quick-repls)
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "λ")
+                               nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("\\(#\\)("
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "ƒ")
+                               nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojure-mode `(("\\(#\\){"
+                     (0 (progn (compose-region (match-beginning 1)
+                                               (match-end 1) "∈")
+                               nil))))))
+
+(eval-after-load 'find-file-in-project
+  '(add-to-list 'ffip-patterns "*.clj"))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojurescript-mode `(("(\\(fn\\)[\[[:space:]]"
+                           (0 (progn (compose-region (match-beginning 1)
+                                                     (match-end 1) "λ")
+                                     nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojurescript-mode `(("\\(#\\)("
+                           (0 (progn (compose-region (match-beginning 1)
+                                                     (match-end 1) "ƒ")
+                                     nil))))))
+
+(eval-after-load 'clojure-mode
+  '(font-lock-add-keywords
+    'clojurescript-mode `(("\\(#\\){"
+                           (0 (progn (compose-region (match-beginning 1)
+                                                     (match-end 1) "∈")
+                                     nil))))))
+
+(add-hook 'clojure-mode-hook
+          (lambda ()
+            (setq buffer-save-without-query t)))
+
+(dolist (x '(scheme emacs-lisp lisp clojure))
+  (add-hook (intern (concat (symbol-name x) "-mode-hook")) 'enable-paredit-mode)
+  (add-hook (intern (concat (symbol-name x) "-mode-hook")) 'rainbow-delimiters-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Common Lisp
+(load (expand-file-name "~/quicklisp/slime-helper.el"))
+(setq inferior-lisp-program "sbcl")
