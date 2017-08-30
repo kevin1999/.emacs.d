@@ -121,6 +121,8 @@
 
 ;; theme
 (load-theme 'deeper-blue)
+;; (set-face-attribute 'region nil :background "teal")
+(set-face-attribute 'region nil :background "purple")
 
 ;; font
 (set-face-attribute 'default nil :height 160)
