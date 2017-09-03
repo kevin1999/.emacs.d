@@ -102,12 +102,10 @@
 ;; (load-config-file "langs.el")
 ;; (load-config-file "c.el")
 ;; (load-config-file "go.el")
-;; (load-config-file "web.el")
+(load-config-file "web.el")
 
 ;; key bindings
 (load-config-file "bindings.el")
-
-(el-get 'sync '(multiple-cursors mark-multiple))
 
 ;; system specific
 (when (eq system-type 'darwin)
@@ -132,8 +130,17 @@
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
+ '(ansi-color-faces-vector
+   [default default default italic underline success warning error])
+ '(ansi-color-names-vector
+   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
  '(package-selected-packages (quote (inflections queue slime)))
- '(safe-local-variable-values (quote ((Package "CLORB.SYSTEM" :use ("CL" "ASDF"))))))
+ '(safe-local-variable-values
+   (quote
+    ((Package ITERATE :use "COMMON-LISP" :colon-mode :external)
+     (syntax . COMMON-LISP)
+     (Package "CLORB.SYSTEM" :use
+              ("CL" "ASDF"))))))
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.

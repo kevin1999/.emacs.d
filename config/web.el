@@ -1,8 +1,9 @@
 (el-get 'sync '(web-mode
-                js2-mode
-                js2-refactor
-                js-comint
-                skewer-mode))
+                ;; js2-mode
+                ;; js2-refactor
+                ;; js-comint
+                ;;skewer-mode
+                ))
 
 (require 'web-mode)
 (add-to-list 'auto-mode-alist '("\\.phtml\\'" . web-mode))
@@ -23,7 +24,7 @@
   (setq web-mode-code-indent-offset 2))
 (add-hook 'web-mode-hook 'custom-web-mode-hook)
 
-(require 'js2-mode)
-(add-to-list 'auto-mode-alist '("\\.js?\\'" . js2-mode))
+;; (require 'js2-mode)
+;; (add-to-list 'auto-mode-alist '("\\.js?\\'" . js2-mode))
 
-(require 'skewer-mode)
+;; (require 'skewer-mode)
