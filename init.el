@@ -49,8 +49,13 @@
 (defun load-config-file (filename)
   (load-file (concat config-dir filename)))
 
-(add-to-list 'exec-path "/usr/local/bin")
-(setenv "PATH" (concat (getenv "PATH") ":/usr/local/bin"))
+;; load `PATH` from environment, works on my mac
+(let ((path (shell-command-to-string ". ~/.bash_profile; echo -n $PATH")))
+  (setenv "PATH" path)
+  (setq exec-path
+        (append
+         (split-string-and-unquote path ":")
+         exec-path)))
 
 ;; tab size
 (setq default-tab-width 4)
@@ -123,27 +128,6 @@
 (set-face-attribute 'region nil :background "purple")
 
 ;; font
-(set-face-attribute 'default nil :height 160)
-
-(custom-set-variables
- ;; custom-set-variables was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(ansi-color-faces-vector
-   [default default default italic underline success warning error])
- '(ansi-color-names-vector
-   ["black" "red3" "ForestGreen" "yellow3" "blue" "magenta3" "DeepSkyBlue" "gray50"])
- '(package-selected-packages (quote (inflections queue slime)))
- '(safe-local-variable-values
-   (quote
-    ((Package ITERATE :use "COMMON-LISP" :colon-mode :external)
-     (syntax . COMMON-LISP)
-     (Package "CLORB.SYSTEM" :use
-              ("CL" "ASDF"))))))
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- )
+(pcase (display-pixel-width)
+  (1440 (set-face-attribute 'default nil :height 140))
+  (2560 (set-face-attribute 'default nil :height 160)))
