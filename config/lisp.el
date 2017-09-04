@@ -2,6 +2,8 @@
                 paredit
                 uuid
                 mic-paren
+                slime
+                slime-company
                 ;; clojure-mode
                 ;; align-cljlet
                 ;; cider
@@ -262,4 +264,6 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Common Lisp
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 
-(setq inferior-lisp-program "sbcl")
+(slime-setup '(slime-company))
+
+(setq inferior-lisp-program "/usr/local/bin/sbcl")
