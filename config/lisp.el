@@ -1,6 +1,5 @@
 (el-get 'sync '(rainbow-delimiters
                 paredit
-                uuid
                 mic-paren
                 slime
                 slime-company
@@ -266,4 +265,12 @@
 
 (slime-setup '(slime-company))
 
-(setq inferior-lisp-program "/usr/local/bin/sbcl")
+;; https://common-lisp.net/project/slime/doc/html/Multiple-Lisps.html
+(setq slime-lisp-implementations
+      '((sbcl ("/usr/local/bin/sbcl") :coding-system utf-8-unix)
+        (ccl ("/usr/local/bin/ccl64"))
+        (lispworks ("~/lw-console"))))
+
+;; (setq inferior-lisp-program "/usr/local/bin/sbcl")
+;; (setq inferior-lisp-program "/usr/local/bin/ccl64"
+;; (setq inferior-lisp-program "~/lw-console")
