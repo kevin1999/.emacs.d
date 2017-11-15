@@ -50,7 +50,7 @@
   (load-file (concat config-dir filename)))
 
 ;; load `PATH` from environment, works on my mac
-(let ((path (shell-command-to-string ". ~/.bash_profile; echo -n $PATH")))
+(let ((path "/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/Users/kevin/erlang-19.3.6.1/bin:/Users/kevin/.cache/rebar3/bin:/Users/kevin/elixir-1.5.1/bin:/Users/kevin/lfe-1.3/bin"))
   (setenv "PATH" path)
   (setq exec-path
         (append
@@ -104,7 +104,7 @@
 
 ;; langs
 (load-config-file "power.el")
-;; (load-config-file "langs.el")
+(load-config-file "langs.el")
 ;; (load-config-file "c.el")
 ;; (load-config-file "go.el")
 (load-config-file "web.el")
@@ -122,12 +122,18 @@
 (when (eq system-type 'windows-nt)
   (load-config-file "win.el"))
 
-;; theme
-(load-theme 'deeper-blue)
-;; (set-face-attribute 'region nil :background "teal")
-(set-face-attribute 'region nil :background "purple")
+;;; Dark theme
+;
+; (load-theme 'deeper-blue)
+; (set-face-attribute 'region nil :background "teal")
+; (set-face-attribute 'region nil :background "purple")
+
+;;; Restore to default theme
+;
+; (disable-theme (car custom-enabled-themes))
+; (set-face-attribute 'region nil :background "ns_selection_bg_color")
 
 ;; font
 (pcase (display-pixel-width)
   (1440 (set-face-attribute 'default nil :height 140))
-  (2560 (set-face-attribute 'default nil :height 160)))
+  (2560 (set-face-attribute 'default nil :height 150)))

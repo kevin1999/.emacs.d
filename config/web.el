@@ -16,6 +16,7 @@
 (add-to-list 'auto-mode-alist '("\\.html?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.css?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.scss?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.html\\.eex?\\'" . web-mode))
 
 (defun custom-web-mode-hook ()
   "Hooks for Web mode."

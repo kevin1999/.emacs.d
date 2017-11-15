@@ -266,11 +266,9 @@
 (slime-setup '(slime-company))
 
 ;; https://common-lisp.net/project/slime/doc/html/Multiple-Lisps.html
+;; M-- M-x slime
 (setq slime-lisp-implementations
-      '((sbcl ("/usr/local/bin/sbcl") :coding-system utf-8-unix)
+      '((sbcl ("/usr/local/bin/sbcl" "--dynamic-space-size" "4096") ;; :coding-system utf-8-unix
+              )
         (ccl ("/usr/local/bin/ccl64"))
         (lispworks ("~/lw-console"))))
-
-;; (setq inferior-lisp-program "/usr/local/bin/sbcl")
-;; (setq inferior-lisp-program "/usr/local/bin/ccl64"
-;; (setq inferior-lisp-program "~/lw-console")
