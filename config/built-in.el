@@ -7,7 +7,7 @@
 
 ;; store history of recently opened files
 (require 'recentf)
-(setq recentf-save-file (concat tmp-dir "recentf")
+(setq recentf-save-file (concat *tmp-dir* "recentf")
       recentf-max-saved-items 200)
 (recentf-mode t)
 
@@ -15,7 +15,7 @@
 ;; when you previously visited. Save file is set to live-tmp-dir/places
 (require 'saveplace)
 (setq-default save-place t)
-(setq save-place-file (concat tmp-dir "places"))
+(setq save-place-file (concat *tmp-dir* "places"))
 
 ;; enable cua-mode for rectangular selections
 (require 'cua-base)
@@ -85,5 +85,5 @@
       ;; save every minute
       savehist-autosave-interval 60
       ;; keep the home clean
-      savehist-file (concat tmp-dir "savehist"))
+      savehist-file (concat *tmp-dir* "savehist"))
 (savehist-mode t)

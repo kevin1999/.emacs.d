@@ -18,16 +18,15 @@
 ;; https://github.com/massemanet/distel
 ;; http://massemanet.github.io/distel/doc/distel/index.html
 
-(el-get 'sync '(erlang-mode
-                erlware-mode
-                ;; edts
-                ))
+(add-to-list 'load-path (expand-file-name "erlang/" *lib-dir*))
+(require 'erlang-start)
+
 
 (add-to-list 'auto-mode-alist '("rebar.config\\'" . erlang-mode))
 
-(add-to-list 'load-path "~/distel/elisp")
-(require 'distel)
-(distel-setup)
+;; (add-to-list 'load-path "~/distel/elisp")
+;; (require 'distel)
+;; (distel-setup)
 
 ;; Prevent annoying hang-on-compile
 (defvar inferior-erlang-prompt-timeout t)

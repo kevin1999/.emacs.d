@@ -1,4 +1,7 @@
-(el-get 'sync '(smex))
+;;; smex
+;;
+;; A smart M-x enhancement for Emacs.
+;; https://github.com/nonsequitur/smex
 
 (require 'smex)
 (smex-initialize)

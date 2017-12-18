@@ -1,7 +1,7 @@
 (require 'term)
 
 (defcustom eshell-directory-name
-  (let* ((dir (concat tmp-dir "eshell")))
+  (let* ((dir (concat *tmp-dir* "eshell")))
     (make-directory dir t)
     dir)
   "The directory where Eshell control files should be kept."

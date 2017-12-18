@@ -1,13 +1,16 @@
-(el-get 'sync '(rainbow-delimiters
-                paredit
-                mic-paren
-                slime
-                slime-company
-                ;; clojure-mode
-                ;; align-cljlet
-                ;; cider
-                ;; clj-refactor
-                ))
+;;; rainbow-delimiters
+;;
+;; https://github.com/Fanael/rainbow-delimiters
+(require 'rainbow-delimiters)
+
+(require 'paredit)
+(require 'thingatpt)
+
+(require 'mic-paren)
+
+(add-to-list 'load-path (expand-file-name "slime/lib/" *lib-dir*))
+(add-to-list 'load-path (expand-file-name "slime/" *lib-dir*))
+(require 'slime)
 
 (add-to-list 'auto-mode-alist '("\\.el$" . emacs-lisp-mode))
 (add-hook 'emacs-lisp-mode-hook 'turn-on-eldoc-mode)
@@ -63,7 +66,7 @@
   '(define-key paredit-mode-map (kbd "M-)") 'paredit-forward-slurp-sexp))
 
 (require 'paredit)
-(require 'thingatpt)
+
 
 (defun paredit-next-top-level-form ()
   (interactive)
@@ -201,69 +204,11 @@
   (interactive)
   (kill-new (thing-at-point 'sexp)))
 
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; clojure
-
-(require 'clojure-mode)
-(require 'rainbow-delimiters)
-;; (require 'clojure-quick-repls)
-
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("(\\(fn\\)[\[[:space:]]"
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "λ")
-                               nil))))))
-
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("\\(#\\)("
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "ƒ")
-                               nil))))))
-
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojure-mode `(("\\(#\\){"
-                     (0 (progn (compose-region (match-beginning 1)
-                                               (match-end 1) "∈")
-                               nil))))))
-
-(eval-after-load 'find-file-in-project
-  '(add-to-list 'ffip-patterns "*.clj"))
-
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojurescript-mode `(("(\\(fn\\)[\[[:space:]]"
-                           (0 (progn (compose-region (match-beginning 1)
-                                                     (match-end 1) "λ")
-                                     nil))))))
-
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojurescript-mode `(("\\(#\\)("
-                           (0 (progn (compose-region (match-beginning 1)
-                                                     (match-end 1) "ƒ")
-                                     nil))))))
-
-(eval-after-load 'clojure-mode
-  '(font-lock-add-keywords
-    'clojurescript-mode `(("\\(#\\){"
-                           (0 (progn (compose-region (match-beginning 1)
-                                                     (match-end 1) "∈")
-                                     nil))))))
-
-(add-hook 'clojure-mode-hook
-          (lambda ()
-            (setq buffer-save-without-query t)))
-
-(dolist (x '(scheme emacs-lisp lisp clojure))
-  (add-hook (intern (concat (symbol-name x) "-mode-hook")) 'enable-paredit-mode)
-  (add-hook (intern (concat (symbol-name x) "-mode-hook")) 'rainbow-delimiters-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; Common Lisp
 (load (expand-file-name "~/quicklisp/slime-helper.el"))
 
-(slime-setup '(slime-company))
+;; (slime-setup '(slime-company))
 
 ;; https://common-lisp.net/project/slime/doc/html/Multiple-Lisps.html
 ;; M-- M-x slime

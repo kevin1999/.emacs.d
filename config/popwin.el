@@ -1,6 +1,9 @@
-(el-get 'sync '(popwin))
-
+;;; popwin
+;;
+;; Popup Window Manager for Emacs.
+;; https://github.com/m2ym/popwin-el
 (require 'popwin)
+
 (setq display-buffer-function 'popwin:display-buffer)
 
 (setq popwin:special-display-config

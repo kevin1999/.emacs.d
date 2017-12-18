@@ -1,8 +1,13 @@
-(el-get 'sync '(idomenu
-                flx))
-
+;;; ido-menu
+;;
+;; imenu tag selection a la ido
+;; https://github.com/birkenfeld/idomenu
 (require 'idomenu)
 
+;;; flx
+;;
+;; Fuzzy matching for Emacs ... a la Sublime Text.
+;; https://github.com/lewang/flx
 (require 'flx-ido)
 
 (ido-mode t)
