@@ -1,3 +1,0 @@
-(:name lfe-mode
-       :description "Lisp Flavoured Erlang mode"
-       :type elpa)

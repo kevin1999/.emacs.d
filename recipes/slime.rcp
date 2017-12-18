@@ -1,3 +1,0 @@
-(:name slime
-       :description "Superior Lisp Interaction Mode for Emacs"
-       :type elpa)

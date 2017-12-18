@@ -1,6 +1,0 @@
-(:name mix-format
-       :website "https://github.com/anildigital/mix-format.el"
-       :description "Emacs package to format Elixir code in Emacs with elixir-mode"
-       :type github
-       :depends (elixir)
-       :pkgname "anildigital/mix-format")
