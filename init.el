@@ -95,6 +95,6 @@
 ; (set-face-attribute 'default nil :height 150)
 
 ;; Customizations
-(setq custom-file "~/.emacs.d/custom.el")
+(setq custom-file (expand-file-name "~/.emacs.d/custom.el"))
 (when (f-exists? custom-file)
   (load custom-file))
