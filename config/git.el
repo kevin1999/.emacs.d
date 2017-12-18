@@ -19,13 +19,17 @@
 ;;
 ;; Magit depends on the dash, magit-popup and with-editor libraries
 ;; https://github.com/magit/magit
-(add-to-list 'load-path (expand-file-name "magit/" *lib-dir*))
-(require 'magit)
-
-(add-hook 'magit-log-edit-mode-hook
-          (lambda ()
-            (set-fill-column 72)
-(auto-fill-mode 1)))
+;;
+;; Magit works on emacs > 24.3
+(when (or (> emacs-major-version 24)
+          (and (= emacs-major-version 24)
+               (> emacs-minor-version 3)))
+  (add-to-list 'load-path (expand-file-name "magit/" *lib-dir*))
+  (require 'magit)
+  (add-hook 'magit-log-edit-mode-hook
+            (lambda ()
+              (set-fill-column 72)
+              (auto-fill-mode 1))))
 
 ;;; git-modes
 ;;
