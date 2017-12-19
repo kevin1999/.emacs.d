@@ -16,7 +16,7 @@
             (electric-indent-mode -1)
             (add-hook 'before-save-hook 'mix-format-before-save)))
 
-(add-hook 'elixir-mode-hook 'flycheck-mode)
+;; (add-hook 'elixir-mode-hook 'flycheck-mode)
 
 (let ((elixir-dir "~/elixir-1.4.5/"))
   (setq alchemist-mix-command (expand-file-name "bin/mix" elixir-dir))
