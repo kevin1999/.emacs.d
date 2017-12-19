@@ -1,1 +1,1 @@
-(el-get 'sync '(flycheck))
+(require 'flycheck)

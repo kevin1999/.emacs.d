@@ -61,9 +61,9 @@
 
 ;; Power
 (load-config-file "power.el")
-;; (load-config-file "company.el")
+(load-config-file "company.el")
 ;; (load-config-file "yasnippet.el")
-;; (load-config-file "flycheck.el")
+(load-config-file "flycheck.el")
 ;; (load-config-file "projectile.el")
 
 ;; Key bindings

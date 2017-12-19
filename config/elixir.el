@@ -5,7 +5,7 @@
 ;; (add-to-list 'load-path (expand-file-name "alchemist/" *lib-dir*))
 ;; (require 'alchemist)
 
-(let ((elixir-dir "~/elixir-1.6.0-dev"))
+(let ((elixir-dir (expand-file-name "~/elixir-1.6.0-dev")))
   (custom-set-variables
    `(mixfmt-elixir ,(expand-file-name "bin/elixir" elixir-dir))
    `(mixfmt-mix ,(expand-file-name "bin/mix" elixir-dir))))
@@ -16,9 +16,9 @@
             (electric-indent-mode -1)
             (add-hook 'before-save-hook 'mix-format-before-save)))
 
-;; (add-hook 'elixir-mode-hook 'flycheck-mode)
+(add-hook 'elixir-mode-hook 'flycheck-mode)
 
-(let ((elixir-dir "~/elixir-1.4.5/"))
+(let ((elixir-dir (expand-file-name "~/elixir-1.4.5/")))
   (setq alchemist-mix-command (expand-file-name "bin/mix" elixir-dir))
   (setq alchemist-iex-program-name (expand-file-name "bin/iex" elixir-dir))
   (setq alchemist-execute-command (expand-file-name "bin/elixir" elixir-dir))

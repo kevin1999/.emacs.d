@@ -1,4 +1,4 @@
-(el-get 'sync '(company-mode))
+(add-to-list 'load-path (expand-file-name "company/" *lib-dir*))
 
 (require 'company)
 
