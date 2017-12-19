@@ -54,6 +54,7 @@
 
 ;; Languages
 (load-config-file "lisp.el")
+(load-config-file "scheme.el")
 (load-config-file "erlang.el")
 (load-config-file "elixir.el")
 (load-config-file "web.el")
