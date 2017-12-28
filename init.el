@@ -40,7 +40,7 @@
 ;; (load-config-file "window-number.el")
 (load-config-file "recentf.el")
 (load-config-file "elisp-slime-nav.el")
-(load-config-file "popwin.el")
+;; (load-config-file "popwin.el")
 (load-config-file "shell.el")
 (load-config-file "fixme.el")
 ;; (load-config-file "spelling.el")
