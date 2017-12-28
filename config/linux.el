@@ -1,9 +1,5 @@
 ;; (set-default-font "DejaVu Sans Mono-10.5")
-(set-default-font "Ubuntu Mono-12")
-
-(set-face-background 'fringe "gray10")
-(set-frame-parameter (selected-frame) 'internal-border-width 2)
-(set-window-fringes (selected-window) 5 5)
+;; (set-default-font "Ubuntu Mono-12")
 
 (global-set-key (kbd "s-a") 'mark-whole-buffer)
 (global-set-key (kbd "s-s") 'save-buffer)
