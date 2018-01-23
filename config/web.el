@@ -16,5 +16,7 @@
   (setq web-mode-markup-indent-offset 4)
   (setq web-mode-css-indent-offset 4)
   (setq web-mode-scss-indent-offset 4)
-  (setq web-mode-code-indent-offset 4))
+  (setq web-mode-code-indent-offset 4)
+  (electric-pair-local-mode)
+  (electric-indent-local-mode))
 (add-hook 'web-mode-hook 'custom-web-mode-hook)

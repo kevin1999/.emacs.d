@@ -13,9 +13,9 @@
 ;; Add elixir-mode hook to run mix format on file save
 (add-hook 'elixir-mode-hook
           (lambda ()
-            (electric-indent-mode -1)
             (add-hook 'before-save-hook 'mix-format-before-save)))
 
+(add-hook 'elixir-mode-hook 'electric-pair-local-mode)
 (add-hook 'elixir-mode-hook 'flycheck-mode)
 
 (let ((elixir-dir (expand-file-name "~/elixir-1.4.5/")))
