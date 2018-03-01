@@ -60,6 +60,7 @@
 (load-config-file "elixir.el")
 (load-config-file "lfe.el")
 (load-config-file "prolog.el")
+(load-config-file "sql.el")
 (load-config-file "web.el")
 (load-config-file "langs.el")
 
