@@ -70,6 +70,7 @@
 ;; (load-config-file "yasnippet.el")
 (load-config-file "flycheck.el")
 ;; (load-config-file "projectile.el")
+(load-config-file "folding.el")
 
 ;; Key bindings
 (load-config-file "bindings.el")
