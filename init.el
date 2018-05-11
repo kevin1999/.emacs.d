@@ -59,6 +59,8 @@
 (load-config-file "erlang.el")
 (load-config-file "elixir.el")
 (load-config-file "lfe.el")
+(load-config-file "prolog.el")
+(load-config-file "sql.el")
 (load-config-file "web.el")
 (load-config-file "langs.el")
 
@@ -68,6 +70,7 @@
 ;; (load-config-file "yasnippet.el")
 (load-config-file "flycheck.el")
 ;; (load-config-file "projectile.el")
+(load-config-file "folding.el")
 
 ;; Key bindings
 (load-config-file "bindings.el")
