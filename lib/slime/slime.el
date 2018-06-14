@@ -897,7 +897,7 @@ MODE is the name of a major mode which will be enabled.
 
 (defun slime-to-lisp-filename (filename)
   "Translate the string FILENAME to a Lisp filename."
-  (funcall slime-to-lisp-filename-function filename))
+  (substring-no-properties (funcall slime-to-lisp-filename-function filename)))
 
 (defun slime-from-lisp-filename (filename)
   "Translate the Lisp filename FILENAME to an Emacs filename."
@@ -7194,7 +7194,7 @@ keys."
   (let ((start (cl-position-if-not (lambda (x)
                                      (memq x '(?\t ?\n ?\s ?\r)))
                                    str))
-        
+
         (end (cl-position-if-not (lambda (x)
                                    (memq x '(?\t ?\n ?\s ?\r)))
                                  str
