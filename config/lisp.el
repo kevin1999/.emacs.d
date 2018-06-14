@@ -209,6 +209,10 @@
   (when (f-exists? slime-helper)
     (load slime-helper)))
 
+(require 'slime-tramp)
+
+(slime-enable-contrib 'slime-tramp)
+
 ;; (slime-setup '(slime-company))
 
 ;; https://common-lisp.net/project/slime/doc/html/Multiple-Lisps.html
