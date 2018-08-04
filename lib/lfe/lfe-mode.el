@@ -72,7 +72,7 @@ Other commands:
   (setq mode-name "LFE")
   (lfe-mode-variables)
   (lfe-font-lock-setup)
-  (use-local-map lfe-mode-map)
+  ;; (use-local-map lfe-mode-map) ;; Cause problems when using termimal emacs (mouse and paste)
   (setq imenu-case-fold-search t)
   (run-mode-hooks 'lfe-mode-hook))
 
