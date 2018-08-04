@@ -1,5 +1,3 @@
-;; (el-get 'sync '(color-theme))
-
 (global-hl-line-mode 1)
 
 ;; disble color
