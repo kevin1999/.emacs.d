@@ -519,6 +519,12 @@ information."
                       (sb-c:compiler-error  :error)
                       (reader-error         :read-error)
                       (error                :error)
+                      #+#.(swank/backend:with-symbol early-deprecation-warning sb-ext)
+                      (sb-ext:early-deprecation-warning :early-deprecation-warning)
+                      #+#.(swank/backend:with-symbol late-deprecation-warning sb-ext)
+                      (sb-ext:late-deprecation-warning :late-deprecation-warning)
+                      #+#.(swank/backend:with-symbol final-deprecation-warning sb-ext)
+                      (sb-ext:final-deprecation-warning :final-deprecation-warning)
                       #+#.(swank/backend:with-symbol redefinition-warning
                             sb-kernel)
                       (sb-kernel:redefinition-warning
@@ -1612,19 +1618,8 @@ stack."
             o)
          append (label-value-line i (sb-kernel:code-header-ref o i)))
    `("Code:" (:newline)
-             , (with-output-to-string (s)
-                 (cond ((sb-kernel:%code-debug-info o)
-                        (sb-disassem:disassemble-code-component o :stream s))
-                       (t
-                        (sb-disassem:disassemble-memory
-                         (sb-disassem::align
-                          (+ (logandc2 (sb-kernel:get-lisp-obj-address o)
-                                       sb-vm:lowtag-mask)
-                             (* sb-vm:code-constants-offset
-                                sb-vm:n-word-bytes))
-                          (ash 1 sb-vm:n-lowtag-bits))
-                         (ash (sb-kernel:%code-code-size o) sb-vm:word-shift)
-                         :stream s)))))))
+             ,(with-output-to-string (s)
+                (sb-disassem:disassemble-code-component o :stream s)))))
 
 (defmethod emacs-inspect ((o sb-ext:weak-pointer))
           (label-value-line*

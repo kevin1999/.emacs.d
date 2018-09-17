@@ -13,6 +13,7 @@
 
 (in-package swank/clasp)
 
+#+(or)
 (eval-when (:compile-toplevel :load-toplevel :execute)
   (setq swank::*log-output* (open "/tmp/slime.log" :direction :output))
   (setq swank:*log-events* t))
@@ -60,8 +61,8 @@
   ;; ECLs swank implementation says that CLOS is not thread safe and
   ;; I use ECLs CLOS implementation - this is a worry for the future.
   ;; nil or  :spawn
-;;  nil
- :spawn
+  ;; nil
+  :spawn
 #|  #+threads :spawn
   #-threads nil
 |#
@@ -313,7 +314,7 @@
                (multiple-value-setq (fasl-file warnings-p failure-p)
                  (let ((truename (or filename (note-buffer-tmpfile tmp-file buffer))))
                    (compile-file tmp-file
-                                 :source-debug-namestring truename
+                                 :source-debug-pathname (pathname truename)
                                  :source-debug-offset (1- position)))))
           (when fasl-file (load fasl-file))
           (when (probe-file tmp-file)
@@ -472,17 +473,22 @@
          (*tpl-level* (1+ *tpl-level*))
          (*backtrace* (core::common-lisp-backtrace-frames
                        :gather-start-trigger
-                       (lambda (frame) (string= (core::backtrace-frame-print-name frame)
-                                                "UNIVERSAL-ERROR-HANDLER"))
-                       :gather-all-frames t)))
+                       (lambda (frame)
+                         (let ((print-name (core::backtrace-frame-print-name frame)))
+                           (and (symbolp print-name)
+                                (eq print-name 'core::universal-error-handler))))
+                       :gather-all-frames nil)))
     (declare (special *ihs-current*))
-    #+frs    (loop for f from *frs-base* until *frs-top*
-                   do (let ((i (- (si::frs-ihs f) *ihs-base* 1)))
-                        (when (plusp i)
-                          (let* ((x (elt *backtrace* i))
-                                 (name (si::frs-tag f)))
-                            (unless (si::fixnump name)
-                              (push name (third x)))))))
+    #+(or)
+    (progn
+      (format ext:+process-standard-output+ "--------------- call-with-debugging-environment -----------~%")
+      (format ext:+process-standard-output+ "(length *backtrace*) -> ~a ~%" (length *backtrace*))
+      (format ext:+process-standard-output+ "Raw backtrace length: ~a ~%" (length (core:clib-backtrace-as-list)))
+      (format ext:+process-standard-output+ "Common Lisp backtrace frames length: ~a ~%" (length (core::common-lisp-backtrace-frames)))
+      (loop for f in (core::common-lisp-backtrace-frames)
+            for id from 0
+            do (progn
+                 (format ext:+process-standard-output+ "Frame ~a:   (~a ~a)~%" id (core::backtrace-frame-print-name f) (core::backtrace-frame-arguments f)))))
     (set-break-env)
     (set-current-ihs)
     (let ((*ihs-base* *ihs-top*))
@@ -505,6 +511,10 @@
       (symbol
        (and (fboundp x)
             (fdefinition x)))
+      (cons
+       (if (eq (car x) 'cl:setf)
+           (fdefinition x)
+           nil))
       (function
        x))))
 
@@ -535,7 +545,7 @@
     (nconc
      (loop for arg across (core::backtrace-frame-arguments frame)
            for i from 0
-           collect (list :name (intern (format nil "ARG~d" i) #.*package*)
+           collect (list :name (intern (format nil "ARG~d" i) :cl-user)
                          :id 0
                          :value arg))
      locals)))
@@ -553,8 +563,19 @@
     (disassemble fun)))
 
 (defimplementation eval-in-frame (form frame-number)
-  (let ((env nil)) ; (second (elt *backtrace* frame-number))))
-    (core:compile-form-and-eval-with-env form env)))
+  (let* ((frame (elt *backtrace* frame-number))
+         (raw-arg-values (coerce (core::backtrace-frame-arguments frame) 'list)))
+    (if (and (= (length raw-arg-values) 2) (core:vaslistp (car raw-arg-values)))
+        (let* ((arg-values (core:list-from-va-list (car raw-arg-values)))
+               (bindings (append (loop for i from 0 for value in arg-values collect `(,(intern (core:bformat nil "ARG%d" i) :cl-user) ',value))
+                                 (list (list (intern "NEXT-METHODS" :cl-user) (cadr raw-arg-values))))))
+          (eval
+           `(let (,@bindings) ,form)))
+        (let* ((arg-values raw-arg-values)
+               (bindings (loop for i from 0 for value in arg-values collect `(,(intern (core:bformat nil "ARG%d" i) :cl-user) ',value))))
+          (eval
+           `(let (,@bindings) ,form))))))
+
 
 #+clasp-working
 (defimplementation gdb-initial-commands ()
