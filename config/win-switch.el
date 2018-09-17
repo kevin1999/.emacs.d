@@ -1,5 +1,3 @@
-;; (el-get 'sync '(win-switch))
-
 ;; (require 'win-switch)
 ;; (setq win-switch-feedback-background-color "DeepPink3")
 ;; (setq win-switch-feedback-foreground-color "black")
