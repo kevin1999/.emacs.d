@@ -57,7 +57,7 @@
 ;; (load-config-file "scheme.el")
 ;; (load-config-file "emacs-lisp.el")
 ;; (load-config-file "clojure.el")
-;; (load-config-file "erlang.el")
+(load-config-file "erlang.el")
 ;; (load-config-file "elixir.el")
 ;; (load-config-file "lfe.el")
 ;; (load-config-file "prolog.el")

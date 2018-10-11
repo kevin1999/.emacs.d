@@ -2,3 +2,4 @@
 (require 'markdown-mode)
 (require 'dockerfile-mode)
 (require 'nginx-mode)
+(require 'protobuf-mode)
