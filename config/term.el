@@ -1,3 +1,5 @@
+(menu-bar-mode -1)
+
 (custom-set-faces
  '(mode-line ((t :foreground "black" :background "grey75" :box (:line-width -1 :style released-button))))
  '(mode-line-inactive ((t :foreground "gray50" :background "grey90" :weight light :box (:line-width -1 :color "grey75" :style nil))))

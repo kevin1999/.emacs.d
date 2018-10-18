@@ -51,6 +51,13 @@
 
 ;; (load-config-file "org.el")
 
+;; Power
+(load-config-file "power.el")
+(load-config-file "company.el")
+(load-config-file "yasnippet.el")
+(load-config-file "flycheck.el")
+(load-config-file "projectile.el")
+
 ;; Languages
 (load-config-file "lisp.el")
 (load-config-file "common-lisp.el")
@@ -65,25 +72,18 @@
 (load-config-file "web.el")
 (load-config-file "langs.el")
 
-;; Power
-(load-config-file "power.el")
-(load-config-file "company.el")
-;; (load-config-file "yasnippet.el")
-(load-config-file "flycheck.el")
-;; (load-config-file "projectile.el")
-
 ;; Key bindings
 (load-config-file "bindings.el")
 
 ;; System specific
 (when (eq system-type 'darwin)
-  (load-config-file "osx.el"))
+  (load-config-file "macos.el"))
 (when (eq system-type 'gnu/linux)
-  (if (display-graphic-p)
-      (load-config-file "linux.el")
-    (load-config-file "term.el")))
+  (load-config-file "linux.el"))
 (when (eq system-type 'windows-nt)
   (load-config-file "win.el"))
+(when (not (display-graphic-p))
+  (load-config-file "term.el"))
 
 ;;; Dark theme
 ;
