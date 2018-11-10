@@ -1,11 +1,10 @@
 (add-to-list 'load-path (expand-file-name "erlang/" *lib-dir*))
 (require 'erlang-start)
 
-(add-hook 'erlang-mode-hook 'my-erlang-mode-hook)
-
-(defun my-erlang-mode-hook ()
+(defun custom-erlang-mode-hook ()
   (local-set-key (kbd "RET") 'newline-and-indent)
   (flycheck-mode))
+(add-hook 'erlang-mode-hook 'custom-erlang-mode-hook)
 
 (add-to-list 'auto-mode-alist '("rebar.config\\'" . erlang-mode))
 
